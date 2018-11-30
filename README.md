@@ -176,3 +176,6 @@ there are already some accounts on the device
   3. 通过命令adb shell dpm set-device-owner com.example.sample/.MyDeviceAdminReceiver成为DeviceOwner；
   4. 通过命令adb shell dpm remove-active-admin com.example.sample/.MyDeviceAdminReceive退出DeviceOwner；
 
+## 设备管控功能
+![](https://ws4.sinaimg.cn/large/006tNbRwly1fxq3zxvcm4j30j20s4q54.jpg)
+
