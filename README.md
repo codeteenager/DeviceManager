@@ -1,5 +1,6 @@
 ### EMM企业移动管理
 企业移动管理EMM（Enterprise Mobile Management）功能对移动终端设备进行全生命周期的管理。包括资产管理、设备管理(MDM)、应用管理(MAM)、内容管理(MCM)和日志管理等多方面提供完善的移动管理方案。
+
 #### 移动资产管理
 资产管理功能可以将移动终端作为企业资产纳入管理体系，包括终端注册、状态、注销等管理，具体功能如下：
 + 资产注册：终端首次接入企业内网时，用户需要输入用户名称、终端类型、资产编号等信息进行资产的注册，以完成资产和用户信息的关联；
@@ -7,6 +8,7 @@
 + 资产注销：支持用户自助注销和管理员手工注销资产信息，被注销终端将会解除和用户的绑定并擦除保存在本地的企业信息数据；
 + 终端状态报表：显示终端型号、所属用户、系统信息以及已安装应用列表等；
 + 用户自助管理：用户可以通过自助网站查看绑定资产信息，对终端进行锁屏、解锁、资产注销、数据擦除等管理操作。
+
 #### 移动设备管理(MDM)
 移动设备管理主要提供终端设备能力的管理和系统环境策略的配置，具体功能如下：
 + Root权限检查：支持检测获取Root权限的设备，可对获取Root权限的设备采取审计、提示、禁止接入、擦除AnyOffice数据和恢复出厂配置等策略；
@@ -15,11 +17,13 @@
 + 远程控制：支持远程锁定/解锁终端、恢复出厂设置；
 + 密码策略：支持密码中要求包含字母和数字、最小密码长度、密码最长有效期、新输入的密码和旧密码是否相同、输错密码的最大次数（达到次数即启动设备擦除）、自动锁屏时间配置；
 + 漫游管理：支持漫游提醒，允许/禁止漫游时的数据推送。
+
 #### 移动应用管理(MAM)
 移动应用管理主要提供企业应用管理及第三方应用的策略控制，具体功能如下：
 + 查看应用列表：终端上可查询应用信息列表，应用信息包括名称、大小、ID、版本和应用程序等数据；
 + 应用黑白名单：如果终端安装了列入黑名单的应用，则根据应用检查策略可对终端采取审计、提醒、禁止接入的操作；如果运行了黑名单中的应用，则不允许接入应用；如配置了白名单应用，则会提示没有安装用户安装；
 + 企业应用商店：企业应用商店的创建、删除、查看，以及版本管理；提供应用手工安装、卸载、升级、搜索、分类查看功能。
+
 #### 移动内容管理(MCM)
 移动内容管理主要指对企业数据在终端本地保存使用和传输过程中的安全保护，具体功能如下：
 + 文件在线模式下加解密：在线模式下用户企业数据&文档都加密保存，保持对涉密操作的在线管理，外部应用无法调用企业数据；和GigaTust软件集成，可以查看编辑RMS加密文档，实现双层保护；
@@ -28,12 +32,15 @@
 
 ## DeviceAdmin和DeviceOwner
 移动设备管理中主要使用Android的DeviceAdmin和DeviceOwner两大模块功能。
+
 ### DeviceAdmin(设备管理)：弱管控
 移动设备管理中使用Google提供的DeviceAdmin设备管理功能，在Android在2.2版本中引进的。通过用户授权自己的应用设备管理权限后，可以在代码中修改很多系统设置，比如设置锁屏方式、恢复出厂设置、设置密码、强制清除密码，修改密码等操作。
+
 ### DeviceOwner(设备所有者)：强管控
 通过DeviceAdmin所做的功能很有限，所以你需要用到DeviceOwner。“设备所有者”是一类特殊的设备管理员，具有在设备上创建和移除辅助用户以及配置全局设置的额外能力。之前申请的DeviceAdmin可以对你的设备进行一些修改，而当你的应用成为DeviceOwner后，你就可以拥有更多的能力，可以对其他应用进行限制。
 
 ## DeviceAdmin使用教程
+
 + 在res/xml目录下新建device_admin_receiver.xml文件
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -64,6 +71,7 @@
 ```
 
 + 注册一个广播继承DeviceAdminReceiver
+
 ```java
 package cn.com.codeteenager.devicemanager.receiver;
 
@@ -128,6 +136,7 @@ public class CTDeviceAdminReceiver extends DeviceAdminReceiver {
 }
 ```
 + 在清单文件里注册广播
+
 ```xml
 <!--定义设备管理策略-->
         <receiver
@@ -144,6 +153,7 @@ public class CTDeviceAdminReceiver extends DeviceAdminReceiver {
         </receiver>
 ```
 + 激活设备管理器
+
 ```java
 if (!mDevicePolicyManager.isAdminActive(mDeviceAdminReceiver)) {
     Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
@@ -169,6 +179,7 @@ there are already some accounts on the device
 则可尝试到设置-账号中退出所有账户，然后重新尝试ADB设置。
 
 ## DeviceOwner移除教程
+
 当一个app成为DeviceOwner后，这个app是不能被卸载，也无法在设置->安全中关闭其权限。要想DeviceOwner后还能卸载这个app，也就是退出DeviceOwner，有如下方法：
 + devicePolicyManager.clearDeviceOwnerApp(packageName)
 + 1. 在AndroidManifest.xml中的<application/>节点添加android:testOnly="true"；
